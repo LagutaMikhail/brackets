@@ -10,20 +10,19 @@ module.exports = function check(str, bracketsConfig) {
 
   let s = [];
   for (let i = 0; i<str.length; i++){
-    if (s.length==0&&closeBrackets.includes(str[i])){
+    if (s.length==0&&closeBrackets.includes(str[i])&& !(openBrackets.includes(str[i]))){
       return false;
       break;
     }
-    else if (openBrackets.includes(str[i])){
+    else if (openBrackets.includes(str[i])&& !(closeBrackets.includes(str[i]))){
       s.push(str[i]);
     }
-    else if (closeBrackets.includes(str[i])&&s.length!==0){
-      bracketsConfig.forEach(function (item,index) {
-        if (item[1] == str[i]&&item[0]==s[s.length-1]){
+    else if (closeBrackets.includes(str[i])&&openBrackets.includes(str[i])&&str[i]!==s[s.length-1]){
+      s.push(str[i]);
+    }
+    else if (closeBrackets.includes(str[i])&&closeBrackets.indexOf(str[i])==openBrackets.indexOf(s[s.length-1])){
           s.pop();
-        };
-      });
-      }
+        }
     else {
       return false;
       break;
